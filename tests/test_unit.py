@@ -1,4 +1,5 @@
 """Unit tests for CRUD operations and schemas."""
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -37,13 +38,17 @@ def db():
 
 @pytest.fixture
 def sample_employee(db):
-    data = EmployeeCreate(name="John", surname="Doe", department="Engineering", salary=60000.0)
+    data = EmployeeCreate(
+        name="John", surname="Doe", department="Engineering", salary=60000.0
+    )
     return crud.create_employee(db, data)
 
 
 class TestCrudCreateEmployee:
     def test_creates_employee_with_correct_fields(self, db):
-        data = EmployeeCreate(name="Alice", surname="Smith", department="HR", salary=45000.0)
+        data = EmployeeCreate(
+            name="Alice", surname="Smith", department="HR", salary=45000.0
+        )
         employee = crud.create_employee(db, data)
 
         assert employee.id is not None
@@ -53,8 +58,12 @@ class TestCrudCreateEmployee:
         assert employee.salary == 45000.0
 
     def test_assigns_unique_ids(self, db):
-        data1 = EmployeeCreate(name="Alice", surname="Smith", department="HR", salary=45000.0)
-        data2 = EmployeeCreate(name="Bob", surname="Jones", department="IT", salary=55000.0)
+        data1 = EmployeeCreate(
+            name="Alice", surname="Smith", department="HR", salary=45000.0
+        )
+        data2 = EmployeeCreate(
+            name="Bob", surname="Jones", department="IT", salary=55000.0
+        )
         emp1 = crud.create_employee(db, data1)
         emp2 = crud.create_employee(db, data2)
 
@@ -77,8 +86,12 @@ class TestCrudGetEmployee:
 
 class TestCrudGetEmployees:
     def test_returns_all_employees(self, db):
-        crud.create_employee(db, EmployeeCreate(name="A", surname="B", department="X", salary=1000.0))
-        crud.create_employee(db, EmployeeCreate(name="C", surname="D", department="Y", salary=2000.0))
+        crud.create_employee(
+            db, EmployeeCreate(name="A", surname="B", department="X", salary=1000.0)
+        )
+        crud.create_employee(
+            db, EmployeeCreate(name="C", surname="D", department="Y", salary=2000.0)
+        )
 
         result = crud.get_employees(db)
 
@@ -91,7 +104,12 @@ class TestCrudGetEmployees:
 
     def test_skip_and_limit(self, db):
         for i in range(5):
-            crud.create_employee(db, EmployeeCreate(name=f"Emp{i}", surname="Test", department="Dept", salary=1000.0))
+            crud.create_employee(
+                db,
+                EmployeeCreate(
+                    name=f"Emp{i}", surname="Test", department="Dept", salary=1000.0
+                ),
+            )
 
         result = crud.get_employees(db, skip=2, limit=2)
 
@@ -137,7 +155,9 @@ class TestCrudDeleteEmployee:
 
 class TestSchemas:
     def test_employee_create_valid(self):
-        data = EmployeeCreate(name="Test", surname="User", department="Ops", salary=30000.0)
+        data = EmployeeCreate(
+            name="Test", surname="User", department="Ops", salary=30000.0
+        )
         assert data.name == "Test"
 
     def test_employee_create_rejects_empty_name(self):
@@ -157,7 +177,10 @@ class TestSchemas:
 
     def test_employee_response_from_orm(self):
         from app.schemas import EmployeeResponse
-        emp = Employee(id=1, name="Ana", surname="Lopez", department="Finance", salary=50000.0)
+
+        emp = Employee(
+            id=1, name="Ana", surname="Lopez", department="Finance", salary=50000.0
+        )
         response = EmployeeResponse.model_validate(emp)
         assert response.id == 1
         assert response.name == "Ana"

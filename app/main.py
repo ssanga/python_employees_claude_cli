@@ -19,12 +19,18 @@ def root():
     return RedirectResponse(url="/docs")
 
 
-@app.get("/employees", response_model=list[schemas.EmployeeResponse], tags=["employees"])
+@app.get(
+    "/employees", response_model=list[schemas.EmployeeResponse], tags=["employees"]
+)
 def list_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_employees(db, skip=skip, limit=limit)
 
 
-@app.get("/employees/{employee_id}", response_model=schemas.EmployeeResponse, tags=["employees"])
+@app.get(
+    "/employees/{employee_id}",
+    response_model=schemas.EmployeeResponse,
+    tags=["employees"],
+)
 def get_employee(employee_id: int, db: Session = Depends(get_db)):
     employee = crud.get_employee(db, employee_id)
     if not employee:
@@ -32,12 +38,21 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
     return employee
 
 
-@app.post("/employees", response_model=schemas.EmployeeResponse, status_code=201, tags=["employees"])
+@app.post(
+    "/employees",
+    response_model=schemas.EmployeeResponse,
+    status_code=201,
+    tags=["employees"],
+)
 def create_employee(employee: schemas.EmployeeCreate, db: Session = Depends(get_db)):
     return crud.create_employee(db, employee)
 
 
-@app.put("/employees/{employee_id}", response_model=schemas.EmployeeResponse, tags=["employees"])
+@app.put(
+    "/employees/{employee_id}",
+    response_model=schemas.EmployeeResponse,
+    tags=["employees"],
+)
 def update_employee(
     employee_id: int, employee: schemas.EmployeeUpdate, db: Session = Depends(get_db)
 ):
