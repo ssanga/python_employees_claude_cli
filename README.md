@@ -1,5 +1,11 @@
 # Employees API
 
+[![CI](https://github.com/ssanga/python_employees_claude_cli/actions/workflows/ci.yml/badge.svg)](https://github.com/ssanga/python_employees_claude_cli/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/ssanga/python_employees_claude_cli/branch/main/graph/badge.svg)](https://codecov.io/gh/ssanga/python_employees_claude_cli)
+[![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-brightgreen.svg)](https://fastapi.tiangolo.com)
+[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-red.svg)](https://docs.sqlalchemy.org/)
+
 REST API para gestión de empleados, departamentos, ventas, compras y fiscalidad construida con **FastAPI**, **SQLAlchemy** y **SQLite**.
 
 ## Tecnologías
@@ -386,7 +392,7 @@ pytest --cov=app --cov-report=html
 
 ## Pipeline CI/CD
 
-El fichero [`.github/workflows/ci.yml`](.github/workflows/ci.yml) define dos jobs que se ejecutan en cada push y pull request a `main` y `develop`.
+El fichero [`.github/workflows/ci.yml`](.github/workflows/ci.yml) se ejecuta en cada push y pull request a `main` y `develop`.
 
 ### Job `test`
 
@@ -398,14 +404,6 @@ checkout → setup Python 3.13 → pip install → pytest --cov
 - Sube el informe a **Codecov** (requiere secret `CODECOV_TOKEN`)
 - Publica el HTML como artefacto de la acción (retención 7 días)
 - Umbral mínimo de cobertura: **80%**
-
-### Job `lint`
-
-```
-checkout → setup Python 3.13 → pip install ruff → ruff check + ruff format --check
-```
-
-- Comprueba estilo y formato con **ruff**
 
 ---
 
